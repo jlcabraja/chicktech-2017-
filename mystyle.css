@@ -1,0 +1,38 @@
+.button-style {
+    background-color: blue;
+    width: 100px;
+    height: 60px;
+    color: white;
+}
+
+
+.hidden {
+    display: none;
+}
+
+.padding-bottom {
+    padding-bottom: 30px;
+}
+
+h1 {
+    font-size: 70px;
+    font-family: verdana bold;
+    color: rgba(10, 10, 114, 0.438);
+    text-align: center;
+    border: 50px darkslateblue;
+}
+
+p {
+    font-size: 14px;
+    text-align: center;
+
+}
+
+body{
+    color:rgba(10, 10, 114, 0.438);
+    font: verdana; 
+    font-size: 32px; 
+    background-color: rgb(2, 163, 163);
+    margin-left: 40px;
+
+}

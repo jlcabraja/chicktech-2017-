@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+<head>
+    <!-- This is where we load JavaScript files that we need - here I'm loading phaser and bootstrap (a bunch of helpful classes
+    to make your websites look more modern and fancy!)-->
+    <meta charset="UTF-8" />
+    <title>ChickTech JavaScript</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/2.6.2/phaser.min.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <!--loading our CSS file-->
+    <link rel="stylesheet" type="text/css" href="mystyle.css">
+
+</head>
+    <div class="row"> 
+        <h1>Welcome to my page!</h1>
+    </div>
+<body>
+<!--Build your about me page here!-->
+<div class="row">
+    <div class="col-md-4">
+        Hello! My name is Juliet, and I moved to Portland from Birmingham, Alabama. 
+        <img src="http://pix.epodunk.com/locatorMaps/al/AL_11804.gif">
+    </div>
+    <div class="col-md-4">
+     I like biology and science!
+     <img src="http://www.microscopy-uk.org.uk/mag/imgsep01/amoebaproteus450.jpg" height="300" width="400">
+    </div>   
+<div class="col-md-4">
+    I run track and cross country at Lincoln High School.
+<img src="https://upload.wikimedia.org/wikipedia/commons/4/4b/Lincoln_High_School_field_-_Portland%2C_Oregon.JPG" height="300" width="550">
+</div>
+<div class="row">
+    <div class="col-md-3">
+    Washington, D.C. is my favorite place to visit, and I hope to live there one day. 
+<img src="http://c6.nrostatic.com/sites/default/files/styles/original_image_with_cropping/public/uploaded/washington-dc-wealthy-metro-area-taxpayer-federal-government-salaries-b.jpg?itok=CCX4ZYne" height="200" width="400">
+</div>
+    <div class="col-md-3">  
+    Here is one of my favorite scenes from the show "The Office."
+    </div>
+<div class="col-md-3">
+    I play piano and sing. Also, I enjoy listening to music.
+<img src="https://usa.yamaha.com/files/DF3BBFBAC0EB418EAA55B39BBDE6691D_12073_2787x2296_b0d03a194b23e7cf85e62e1a36a7c1ab.jpg" height="300" width="400">
+</div>
+
+</div>
+<div class="row"></div>
+ 
+
+
+
+<!--END HTML FOR ABOUT ME PAGE-->
+
+<!--Put any javascript here-->
+<script type="text/javascript">
+
+    //this opens a new window when you click the button with our game html! Since an entire URL is not specified,
+    //it opens relative to your current path - if you are on www.mywebsite.com/index.html, this would go to
+    //www.mywebsite.com/game.html
+    var onClick = function() {
+      window.open('/game.html');
+    }
+
+
+</script>
+
+</body>
+</html>
