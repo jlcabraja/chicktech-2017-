@@ -14,14 +14,23 @@
 <script type="text/javascript">
 
     var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+    var score;
+    var countdown;
+    var timeUpText='';
+    var timer;
+    var gameTime= 15;
+ 
+var scoreText;
 
     //These three functions are required for phaser!
     //Preload loads everything your game needs - sprites, images, etc
     function preload() {
         game.load.image('sky', 'assets/forest_background_preview.png');
         game.load.image('ground', 'assets/platform.png');
+        game.load.image('egg', 'assets/egg.png');
+        game.load.image('berry','assets/berry.png')
         game.load.spritesheet('hp', 'assets/fox.png', 47, 44);
-
+    
     }
 
     //Create sets up your game for you - most of your code will probably be here!
@@ -53,26 +62,57 @@
         game.physics.arcade.enable(player);
 
         //give player gravity
-        player.body.gravity.y = 300;
+        player.body.gravity.y =175;
 
         player.animations.add('left', [4, 5, 6, 7], 10, true);
         player.animations.add('right', [8, 9, 10,11], 10, true);
 
+        eggs= game.add.group();
 
+        eggs.enableBody = true;
+
+        berries= game.add.group();
+        
+        berries.enableBody = true;
+
+
+
+                //add text for the score and the timer
+                scoreText = game.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
+        timeText = game.add.text(600, 16, 'Time: ' + gameTime, {fontSize: '32px', fill: '#000'});
+        scoreText.visible = false;
+        timeText.visible = false;
+        //create the timer
+        timer = game.time.create(false);
+        introText = game.add.text(game.world.centerX, 400, '- click to start -', { font: "40px Arial", fill: "#ffffff", align: "center" });
+        introText.anchor.setTo(0.5, 0.5);
+        game.input.onDown.add(startGame, this);
+
+      
+   
         //  Our controls.
         cursors = game.input.keyboard.createCursorKeys();
-
+   
     }
 
     //Update is continously called while the game is being played - add things like
     //tracking arrow keys, etc here!
     function update() {
+        game.physics.arcade.overlap(player, eggs, collectegg, null, this);
+
+      
+    game.physics.arcade.collide(eggs, platforms);
+
+    game.physics.arcade.collide(berries, platforms);
+    game.physics.arcade.overlap(player, berries, collectberry, null, this);
+
+    
 
     //check if player is touching the platform - stops from falling through ground
     game.physics.arcade.collide(player, platforms);
 
       //  Reset the players velocity (movement)
-      player.body.velocity.x = 0;
+      player.body.velocity.x = 2;
 
         //left key control
         if (cursors.left.isDown)
@@ -86,7 +126,7 @@
         else if (cursors.right.isDown)
         {
             //  Move to the right
-            player.body.velocity.x = 200;
+            player.body.velocity.x = 225;
 
             player.animations.play('right');
         }
@@ -101,7 +141,102 @@
 
     }
 
-    //add any extra functions you need here! 
+
+    function startGame(){
+        //set countdown to our global "game time" variable
+        countdown = gameTime;
+        timeText.text = 'Time: ' + countdown;
+        
+        //initialize score to 0 and update score text
+        score = 0;
+        scoreText.text = 'Score: ' + score;
+        //if we are showing time up text, stop showing
+        if(timeUpText) {
+            timeUpText.visible = false;
+        }
+        //don't show intro text
+        introText.visible = false;
+        //create new eggs in a loop, every 400 milliseconds
+
+        //create a loop to update the countdown text, update every second and call updateCountdown
+        countdownTimer = timer.loop(Phaser.Timer.SECOND, updateCountdown);
+        //add the timer event of game time * 1000 (since it is in milliseconds) and call timeUp when its done
+        timer.add(gameTime*1000, timeUp, this);
+        //start the timer event
+        timer.start();
+        timeText.visible = true;
+        scoreText.visible = true;
+
+        timer.loop(400, createegg);
+        timer.loop(2000, createberry);
+    }
+
+      
+
+
+    //add any extra functions you need here! \
+    function collectegg (player, egg){
+
+
+        // Removes the egg from the screen
+        egg.kill();
+        //  Add and update the score
+        score += 5;
+        scoreText.text = 'Score: ' + score;
+  
+       
+    }
+    function createegg() {
+        var xLocation= Math.random() * 800;
+        
+        var egg = eggs.create(xLocation,0, 'egg');
+        //Let gravity do its thing
+        egg.body.gravity.y=50 + Math.random()*150;
+
+        //This just gives each egg a slightly different bounce value.
+        egg.body.bounce.y = 0.6+ Math.random() * 0.2;
+
+       
+    }
+    function createberry(){
+        var xLocation= Math.random() * 800;
+        
+        var berry = berries.create(xLocation,0, 'berry');
+        //Let gravity do its thing
+        berry.body.gravity.y=50 + Math.random()*150;
+
+        //This just gives each egg a slightly different bounce value.
+        berry.body.bounce.y = 0.6+ Math.random() * 0.2;
+    }
+    function collectberry (player, berry){
+        berry.kill();
+        score -=10
+        scoreText.text='Score: ' + score;
+    }
+       //handle time up event
+    function timeUp() {
+        //stop the loops
+        timer.stop();
+        //get rid of all the active snitches
+        eggs.forEach(function(element) {
+            element.kill();
+        });
+        berries.forEach(function(element) {
+            element.kill();
+        });
+        //display time up message
+        timeUpText = game.add.text(350, 250, 'Time\'s up!', { fontSize: '32px', fill: '#000' });
+        introText = game.add.text(game.world.centerX, 400, '- click to start -', { font: "40px Arial", fill: "#ffffff", align: "center" });
+        introText.anchor.setTo(0.5, 0.5);
+    }
+    //update the timer countdown
+    function updateCountdown() {
+        //decrease the countdown value
+        countdown = countdown - 1;
+        //update the display text
+        timeText.text = 'Time: ' + countdown;
+    }
+        
 
 
 </script>
